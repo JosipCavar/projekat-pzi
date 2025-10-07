@@ -10,7 +10,9 @@ import events from './routes/events.js'
 import quizzes from './routes/quizzes.js'
 import reservations from './routes/reservations.js'
 import users from './routes/users.js'
-import admin from './routes/admin.js' // ✅ NOVO: rute za admin i superadmin
+import admin from './routes/admin.js'
+import friends from './routes/friends.js'   // ✅ NOVO: rute za prijatelje
+import teams from './routes/teams.js'       // ✅ NOVO: rute za timove
 
 const app = express()
 
@@ -41,7 +43,9 @@ app.use('/api/events', events)
 app.use('/api/quizzes', quizzes)
 app.use('/api/reservations', reservations)
 app.use('/api/users', users)
-app.use('/api/admin', admin) // ✅ NOVO — superadmin može kreirati admine
+app.use('/api/admin', admin)
+app.use('/api/friends', friends)   // ✅ Nova ruta — upravljanje prijateljima
+app.use('/api/teams', teams)       // ✅ Nova ruta — timovi i članovi
 
 // ⚠️ Catch-all za nepostojeće rute (404)
 app.use((req, res) => {

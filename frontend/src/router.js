@@ -10,22 +10,33 @@ import Login from './pages/Login.vue'
 import Register from './pages/Register.vue'
 import AdminEvents from './pages/AdminEvents.vue'
 import Quizzes from './pages/Quizzes.vue'
-import CreateAdmin from './pages/CreateAdmin.vue' // ✅ NOVO — SuperAdmin stranica
+import CreateAdmin from './pages/CreateAdmin.vue'
+import Friends from './pages/Friends.vue' // ✅ NOVO – Stranica za prijatelje
 
-// 🧭 Definicija ruta
+// 🧭 Definicija svih ruta
 const routes = [
+  // 🏠 Glavne javne stranice
   { path: '/', component: Home },
-  { path: '/teams', component: Teams },
   { path: '/games', component: Games },
   { path: '/events', component: Events },
+  { path: '/quizzes', component: Quizzes },
+
+  // 🧾 Rezervacije i timovi
   { path: '/reservations', component: Reservations },
+  { path: '/teams', component: Teams },
+
+  // 👥 Prijatelji
+  { path: '/friends', component: Friends },
+
+  // 🔐 Autentifikacija
   { path: '/login', component: Login },
   { path: '/register', component: Register },
-  { path: '/admin/events', component: AdminEvents },
-  { path: '/quizzes', component: Quizzes },
-  { path: '/create-admin', component: CreateAdmin }, // ✅ DODANO
 
-  // 🧪 Test ruta za provjeru routera
+  // 🧰 Administracija
+  { path: '/admin/events', component: AdminEvents },
+  { path: '/create-admin', component: CreateAdmin },
+
+  // 🧪 Test ruta
   {
     path: '/test',
     component: {
@@ -39,7 +50,7 @@ const routes = [
     }
   },
 
-  // 🧱 Fallback ruta (ako URL ne postoji)
+  // ⚠️ 404 – Stranica nije pronađena
   {
     path: '/:pathMatch(.*)*',
     component: {

@@ -1,17 +1,19 @@
 <template>
   <nav class="navbar">
-    <!-- Glavni linkovi koji su svima vidljivi -->
+    <!-- Glavni linkovi vidljivi svima -->
     <a href="/" @click.prevent="$router.push('/')">Početna</a>
     <a href="/reservations" @click.prevent="$router.push('/reservations')">Rezervacije</a>
 
-    <!-- Dodatni linkovi za prijavljene korisnike -->
+    <!-- Linkovi za prijavljene korisnike -->
     <template v-if="isAuth">
       <a href="/games" @click.prevent="$router.push('/games')">Igre</a>
       <a href="/events" @click.prevent="$router.push('/events')">Eventi</a>
       <a href="/quizzes" @click.prevent="$router.push('/quizzes')">Kvizovi</a>
+      <a href="/friends" @click.prevent="$router.push('/friends')">Prijatelji</a>
+      <a href="/teams" @click.prevent="$router.push('/teams')">Timovi</a>
     </template>
 
-    <!-- Desna strana navbar-a -->
+    <!-- Razmak prije desne strane -->
     <span style="margin-left:auto"></span>
 
     <!-- Ako nije prijavljen -->
@@ -26,16 +28,17 @@
         👤 {{ user?.username || user?.email }}
       </span>
 
-      <!-- Admin pristup -->
+      <!-- Admin -->
       <a
         v-if="isAdminOrBetter"
         href="/admin/events"
         @click.prevent="$router.push('/admin/events')"
+        class="admin-link"
       >
         Admin
       </a>
 
-      <!-- SuperAdmin može dodavati admine -->
+      <!-- SuperAdmin -->
       <a
         v-if="isSuperAdmin"
         href="/create-admin"
@@ -45,7 +48,7 @@
         ➕ Dodaj Admina
       </a>
 
-      <a href="#" @click.prevent="logout">Odjava</a>
+      <a href="#" @click.prevent="logout" class="logout">Odjava</a>
     </template>
   </nav>
 
@@ -71,7 +74,6 @@ const isAdminOrBetter = computed(() =>
   (user.value.user_type === 'ADMIN' || user.value.user_type === 'SUPERADMIN')
 )
 
-// 👑 SuperAdmin provjera
 const isSuperAdmin = computed(() => user.value?.user_type === 'SUPERADMIN')
 
 function logout() {
@@ -87,16 +89,19 @@ function logout() {
 .navbar {
   display: flex;
   gap: 1rem;
-  padding: 1rem;
-  background: #222;
+  padding: 1rem 2rem;
+  background: #111;
   color: white;
   align-items: center;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .navbar a {
-  color: white;
+  color: #f0f0f0;
   text-decoration: none;
-  transition: color 0.2s;
+  font-weight: 500;
+  transition: color 0.2s ease;
 }
 
 .navbar a:hover {
@@ -106,9 +111,19 @@ function logout() {
 .user-label {
   opacity: 0.9;
   margin-right: 0.5rem;
+  font-weight: 600;
 }
 
-/* 🔹 Poseban izgled za SuperAdmin link */
+.admin-link {
+  background: #444;
+  padding: 6px 10px;
+  border-radius: 8px;
+  font-weight: 600;
+}
+.admin-link:hover {
+  background: #666;
+}
+
 .superadmin-link {
   background: #007bff;
   padding: 6px 10px;
@@ -119,5 +134,18 @@ function logout() {
 }
 .superadmin-link:hover {
   background: #0056b3;
+}
+
+.logout {
+  background: transparent;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  color: #ff8080;
+  font-weight: 600;
+  cursor: pointer;
+}
+.logout:hover {
+  color: #ff4d4d;
 }
 </style>
