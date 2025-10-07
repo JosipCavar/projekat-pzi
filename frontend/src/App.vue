@@ -23,13 +23,28 @@
     <!-- Ako je prijavljen -->
     <template v-else>
       <span class="user-label">
-        Prijavljen: {{ user?.username || user?.email }}
+        👤 {{ user?.username || user?.email }}
       </span>
+
+      <!-- Admin pristup -->
       <a
         v-if="isAdminOrBetter"
         href="/admin/events"
         @click.prevent="$router.push('/admin/events')"
-      >Admin</a>
+      >
+        Admin
+      </a>
+
+      <!-- SuperAdmin može dodavati admine -->
+      <a
+        v-if="isSuperAdmin"
+        href="/create-admin"
+        @click.prevent="$router.push('/create-admin')"
+        class="superadmin-link"
+      >
+        ➕ Dodaj Admina
+      </a>
+
       <a href="#" @click.prevent="logout">Odjava</a>
     </template>
   </nav>
@@ -55,6 +70,9 @@ const isAdminOrBetter = computed(() =>
   user.value &&
   (user.value.user_type === 'ADMIN' || user.value.user_type === 'SUPERADMIN')
 )
+
+// 👑 SuperAdmin provjera
+const isSuperAdmin = computed(() => user.value?.user_type === 'SUPERADMIN')
 
 function logout() {
   localStorage.removeItem('user')
@@ -86,6 +104,20 @@ function logout() {
 }
 
 .user-label {
-  opacity: 0.8;
+  opacity: 0.9;
+  margin-right: 0.5rem;
+}
+
+/* 🔹 Poseban izgled za SuperAdmin link */
+.superadmin-link {
+  background: #007bff;
+  padding: 6px 10px;
+  border-radius: 8px;
+  color: white !important;
+  font-weight: 600;
+  transition: background 0.25s;
+}
+.superadmin-link:hover {
+  background: #0056b3;
 }
 </style>

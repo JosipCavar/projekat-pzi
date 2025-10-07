@@ -4,12 +4,13 @@ import morgan from 'morgan'
 import cors from 'cors'
 import { cfg } from './config.js'
 
-// 🔹 Uvoz ruta
+// 🔹 Uvoz svih ruta
 import auth from './routes/auth.js'
 import events from './routes/events.js'
 import quizzes from './routes/quizzes.js'
 import reservations from './routes/reservations.js'
 import users from './routes/users.js'
+import admin from './routes/admin.js' // ✅ NOVO: rute za admin i superadmin
 
 const app = express()
 
@@ -40,6 +41,7 @@ app.use('/api/events', events)
 app.use('/api/quizzes', quizzes)
 app.use('/api/reservations', reservations)
 app.use('/api/users', users)
+app.use('/api/admin', admin) // ✅ NOVO — superadmin može kreirati admine
 
 // ⚠️ Catch-all za nepostojeće rute (404)
 app.use((req, res) => {

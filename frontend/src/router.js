@@ -10,6 +10,7 @@ import Login from './pages/Login.vue'
 import Register from './pages/Register.vue'
 import AdminEvents from './pages/AdminEvents.vue'
 import Quizzes from './pages/Quizzes.vue'
+import CreateAdmin from './pages/CreateAdmin.vue' // ✅ NOVO — SuperAdmin stranica
 
 // 🧭 Definicija ruta
 const routes = [
@@ -22,6 +23,7 @@ const routes = [
   { path: '/register', component: Register },
   { path: '/admin/events', component: AdminEvents },
   { path: '/quizzes', component: Quizzes },
+  { path: '/create-admin', component: CreateAdmin }, // ✅ DODANO
 
   // 🧪 Test ruta za provjeru routera
   {
