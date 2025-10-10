@@ -36,7 +36,7 @@ const router = useRouter()
 
 onMounted(async () => {
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/reservations/games`)
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reservations/games`)
     if (!res.ok) throw new Error('Ne mogu dohvatiti igre.')
     games.value = await res.json()
   } catch (err) {

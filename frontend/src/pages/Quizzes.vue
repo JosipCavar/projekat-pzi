@@ -73,7 +73,7 @@ const token = localStorage.getItem('token') || ''
 // 🔹 Dohvati tjedni kviz
 async function loadQuiz() {
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/quizzes/weekly`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/quizzes/weekly`, {
       headers: { Authorization: 'Bearer ' + token }
     })
     const json = await res.json()
@@ -99,7 +99,7 @@ async function submitQuiz() {
   loading.value = true
   msg.value = ''
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/quizzes/submit/${quiz.value.id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/quizzes/submit/${quiz.value.id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +123,7 @@ async function submitQuiz() {
 
 // 🔹 Učitaj leaderboard
 async function loadLeaderboard() {
-  const res = await fetch(`${import.meta.env.VITE_API}/api/quizzes/leaderboard/${quiz.value.id}`)
+  const res = await fetch(`${import.meta.env.VITE_API_URL}/api/quizzes/leaderboard/${quiz.value.id}`)
   leaderboard.value = await res.json()
 }
 

@@ -73,7 +73,7 @@ async function createAdmin() {
   const token = localStorage.getItem('token') || ''
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/admin/create-admin`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/admin/create-admin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

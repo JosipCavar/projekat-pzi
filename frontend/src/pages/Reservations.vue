@@ -134,7 +134,7 @@ async function reserve() {
   }
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/reservations`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reservations`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -164,7 +164,7 @@ async function reserve() {
 // 📦 Dohvati igre
 async function loadGames() {
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/reservations/games`)
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reservations/games`)
     if (!res.ok) throw new Error('Ne mogu dohvatiti igre.')
     games.value = await res.json()
   } catch (err) {
@@ -177,8 +177,8 @@ async function loadGames() {
 async function loadMine() {
   if (!token) return
   const endpoint = isAdmin
-    ? `${import.meta.env.VITE_API}/api/reservations/all`
-    : `${import.meta.env.VITE_API}/api/reservations/mine`
+    ? `${import.meta.env.VITE_API_URL}/api/reservations/all`
+    : `${import.meta.env.VITE_API_URL}/api/reservations/mine`
 
   const res = await fetch(endpoint, {
     headers: { Authorization: 'Bearer ' + token }
@@ -192,7 +192,7 @@ async function cancelReservation(id) {
   if (!confirm('Jeste li sigurni da želite otkazati ovu rezervaciju?')) return
 
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/reservations/status/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reservations/status/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

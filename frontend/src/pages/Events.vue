@@ -56,7 +56,7 @@ const loadingEvent = ref(null)
 
 async function loadEvents() {
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/events`)
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/events`)
     if (!res.ok) throw new Error('Ne mogu dohvatiti evente.')
     events.value = await res.json()
   } catch (err) {
@@ -71,7 +71,7 @@ async function reserveEvent(id) {
   msgType.value = ''
   loadingEvent.value = id
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/reservations/event/${id}`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/reservations/event/${id}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

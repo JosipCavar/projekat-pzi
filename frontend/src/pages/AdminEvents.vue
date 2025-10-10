@@ -41,12 +41,12 @@ const token = localStorage.getItem('token') || ''
 const title = ref(''), scheduled_at = ref(''), status = ref('draft'), msg = ref(''), list = ref([])
 
 async function load(){
-  const res = await fetch(import.meta.env.VITE_API + '/events')
+  const res = await fetch(import.meta.env.VITE_API_URL + '/events')
   list.value = await res.json()
 }
 async function create(){
   msg.value=''
-  const res = await fetch(import.meta.env.VITE_API + '/events', {
+  const res = await fetch(import.meta.env.VITE_API_URL + '/events', {
     method:'POST',
     headers:{ 'Content-Type':'application/json', 'Authorization':'Bearer ' + token },
     body: JSON.stringify({ title:title.value, scheduled_at:scheduled_at.value, status:status.value })

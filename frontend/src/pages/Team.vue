@@ -65,7 +65,7 @@ const loading = ref(false)
 // 🔹 Dohvati sve timove korisnika
 async function loadTeams() {
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/teams`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/teams`, {
       headers: { Authorization: 'Bearer ' + token }
     })
     const data = await res.json()
@@ -83,7 +83,7 @@ async function createTeam() {
   loading.value = true
   msg.value = ''
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/teams`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/teams`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -109,7 +109,7 @@ async function createTeam() {
 async function addMember(teamId) {
   if (!memberId.value) return
   try {
-    const res = await fetch(`${import.meta.env.VITE_API}/api/teams/${teamId}/add`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/api/teams/${teamId}/add`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

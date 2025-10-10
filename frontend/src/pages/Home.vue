@@ -44,7 +44,7 @@ const error = ref('')
 onMounted(async () => {
   try {
     // 👇 ako tvoj backend endpoint izgleda ovako, koristi /api/events/upcoming
-    const res = await fetch(import.meta.env.VITE_API + '/api/events')
+    const res = await fetch(import.meta.env.VITE_API_URL + '/api/events')
     if (!res.ok) throw new Error('Ne mogu dohvatiti događaje.')
 
     events.value = await res.json()

@@ -56,10 +56,12 @@ const friendId = ref('')
 const friends = ref([])
 const requests = ref([])
 
+const API = import.meta.env.VITE_API_URL // ✅ koristi Render backend
+
 // 🔹 Dohvati potvrđene prijatelje
 async function loadFriends() {
   try {
-    const res = await axios.get('http://localhost:4000/api/friends', {
+    const res = await axios.get(`${API}/api/friends`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     friends.value = res.data
@@ -71,7 +73,7 @@ async function loadFriends() {
 // 🔹 Dohvati zahtjeve koji čekaju
 async function loadRequests() {
   try {
-    const res = await axios.get('http://localhost:4000/api/friends/requests', {
+    const res = await axios.get(`${API}/api/friends/requests`, {
       headers: { Authorization: `Bearer ${token}` }
     })
     requests.value = res.data
@@ -85,7 +87,7 @@ async function addFriend() {
   if (!friendId.value) return alert('Unesi ID korisnika!')
   try {
     await axios.post(
-      'http://localhost:4000/api/friends/add',
+      `${API}/api/friends/add`,
       { receiver_id: parseInt(friendId.value) },
       { headers: { Authorization: `Bearer ${token}` } }
     )
@@ -100,7 +102,7 @@ async function addFriend() {
 async function acceptRequest(id) {
   try {
     await axios.post(
-      `http://localhost:4000/api/friends/accept/${id}`,
+      `${API}/api/friends/accept/${id}`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     )
@@ -116,7 +118,7 @@ async function acceptRequest(id) {
 async function declineRequest(id) {
   try {
     await axios.post(
-      `http://localhost:4000/api/friends/decline/${id}`,
+      `${API}/api/friends/decline/${id}`,
       {},
       { headers: { Authorization: `Bearer ${token}` } }
     )
