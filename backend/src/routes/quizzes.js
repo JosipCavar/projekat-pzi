@@ -13,40 +13,43 @@ r.get('/by-event/:eventId', async (req, res) => {
   res.json(rows)
 })
 
+// 🔹 Runde kviza
 r.get('/rounds/:quizId', async (req, res) => {
   const [rows] = await pool.query(
-    'SELECT * FROM rounds WHERE quiz_id=? ORDER BY order_no ASC, id ASC',
+    'SELECT * FROM rounds WHERE quiz_id=? ORDER BY id ASC',
     [req.params.quizId]
   )
   res.json(rows)
 })
 
 r.post('/rounds', auth(), requireRole('ADMIN', 'SUPERADMIN'), async (req, res) => {
-  const { quiz_id, title, order_no } = req.body
+  const { quiz_id, title } = req.body
   const [ins] = await pool.query(
-    'INSERT INTO rounds (quiz_id,title,order_no) VALUES (?,?,?)',
-    [quiz_id, title, order_no || 0]
+    'INSERT INTO rounds (quiz_id,title) VALUES (?,?)',
+    [quiz_id, title]
   )
   res.json({ id: ins.insertId })
 })
 
+// 🔹 Pitanja
 r.get('/questions/:roundId', async (req, res) => {
   const [rows] = await pool.query(
-    'SELECT * FROM questions WHERE round_id=? ORDER BY order_no ASC, id ASC',
+    'SELECT * FROM questions WHERE round_id=? ORDER BY id ASC',
     [req.params.roundId]
   )
   res.json(rows)
 })
 
 r.post('/questions', auth(), requireRole('ADMIN', 'SUPERADMIN'), async (req, res) => {
-  const { round_id, text, type, points, order_no } = req.body
+  const { round_id, question_text, correct_answer } = req.body
   const [ins] = await pool.query(
-    'INSERT INTO questions (round_id,text,type,points,order_no) VALUES (?,?,?,?,?)',
-    [round_id, text, type || 'single', points || 1, order_no || 0]
+    'INSERT INTO questions (round_id, question_text, correct_answer) VALUES (?,?,?)',
+    [round_id, question_text, correct_answer]
   )
   res.json({ id: ins.insertId })
 })
 
+// 🔹 Opcije
 r.get('/options/:questionId', async (req, res) => {
   const [rows] = await pool.query(
     'SELECT * FROM options WHERE question_id=? ORDER BY id ASC',
@@ -56,10 +59,10 @@ r.get('/options/:questionId', async (req, res) => {
 })
 
 r.post('/options', auth(), requireRole('ADMIN', 'SUPERADMIN'), async (req, res) => {
-  const { question_id, text, is_correct } = req.body
+  const { question_id, option_text, is_correct } = req.body
   const [ins] = await pool.query(
-    'INSERT INTO options (question_id,text,is_correct) VALUES (?,?,?)',
-    [question_id, text, is_correct ? 1 : 0]
+    'INSERT INTO options (question_id, option_text, is_correct) VALUES (?,?,?)',
+    [question_id, option_text, is_correct ? 1 : 0]
   )
   res.json({ id: ins.insertId })
 })
@@ -104,14 +107,15 @@ r.get('/weekly', auth(), async (req, res) => {
       })
     }
 
+    // 👇 POPRAVLJEN UPIT
     const [questions] = await pool.query(
-      `SELECT q.id, q.text AS question_text, o.id AS option_id, o.text AS option_text
+      `SELECT q.id, q.question_text, o.id AS option_id, o.option_text
        FROM questions q
        JOIN options o ON o.question_id = q.id
        WHERE q.round_id = (
          SELECT id FROM rounds WHERE quiz_id = ? LIMIT 1
        )
-       ORDER BY q.order_no, q.id, o.id`,
+       ORDER BY q.id, o.id`,
       [q.id]
     )
 
@@ -122,7 +126,8 @@ r.get('/weekly', auth(), async (req, res) => {
     }
 
     res.json({ quiz: q, questions: Object.values(grouped) })
-  } catch {
+  } catch (err) {
+    console.error('❌ Greška kod dohvaćanja kviza:', err)
     res.status(500).json({ error: 'Greška kod dohvaćanja kviza.' })
   }
 })
