@@ -11,31 +11,17 @@
       <form @submit.prevent="register" class="register-form">
         <div class="form-field">
           <label>Korisničko ime</label>
-          <input
-            v-model="username"
-            placeholder="unesite korisničko ime"
-            required
-          />
+          <input v-model="username" placeholder="unesite korisničko ime" required />
         </div>
 
         <div class="form-field">
           <label>Email adresa</label>
-          <input
-            v-model="email"
-            type="email"
-            placeholder="unesite email"
-            required
-          />
+          <input v-model="email" type="email" placeholder="unesite email" required />
         </div>
 
         <div class="form-field">
           <label>Lozinka</label>
-          <input
-            v-model="password"
-            type="password"
-            placeholder="unesite lozinku"
-            required
-          />
+          <input v-model="password" type="password" placeholder="unesite lozinku" required />
         </div>
 
         <button class="primary-btn" type="submit" :disabled="loading">
@@ -53,6 +39,9 @@
 
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
 
 const username = ref('')
 const email = ref('')
@@ -86,9 +75,9 @@ async function register() {
     email.value = ''
     password.value = ''
 
-    // Automatski preusmjeri nakon 2 sekunde
+    // ✅ Sigurno preusmjeri pomoću Vue Routera
     setTimeout(() => {
-      window.location.href = '/login'
+      router.push('/login')
     }, 2000)
   } catch (err) {
     msg.value = '❌ ' + err.message
