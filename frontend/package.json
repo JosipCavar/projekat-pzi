@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && copy _redirects dist\\",
+    "build": "vite build && (cp _redirects dist/ || copy _redirects dist\\)",
     "preview": "vite preview"
   },
   "dependencies": {
