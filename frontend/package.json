@@ -5,7 +5,7 @@
   "private": true,
   "scripts": {
     "dev": "vite",
-    "build": "vite build && (cp _redirects dist/ || copy _redirects dist\\)",
+    "build": "vite build && cp _redirects dist/ || echo '⚠️ _redirects copy skipped (Windows build)'",
     "preview": "vite preview"
   },
   "dependencies": {
